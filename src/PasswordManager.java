@@ -10,14 +10,15 @@ public class PasswordManager extends JFrame {
     private JPasswordField passwordField;
     private JButton loginButton;
     private JButton createButton;
+    private JLabel userCountLabel;
 
     private Map<String, String> passwords;
 
     public PasswordManager() {
         setTitle("Password Manager");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300, 200);
-        setLayout(new GridLayout(3, 2));
+        setSize(300, 250);
+        setLayout(new GridLayout(4, 2));
 
         JLabel usernameLabel = new JLabel("Username:");
         add(usernameLabel);
@@ -49,6 +50,12 @@ public class PasswordManager extends JFrame {
         });
         add(createButton);
 
+        JLabel userCountTextLabel = new JLabel("Total Users:");
+        add(userCountTextLabel);
+
+        userCountLabel = new JLabel("0");
+        add(userCountLabel);
+
         passwords = new HashMap<>();
         passwords.put("admin", "admin");
 
@@ -79,12 +86,18 @@ public class PasswordManager extends JFrame {
             if (!passwords.containsKey(username)) {
                 passwords.put(username, password);
                 JOptionPane.showMessageDialog(this, "Account created successfully!");
+                updateTotalUsers();
             } else {
                 JOptionPane.showMessageDialog(this, "Username already exists!");
             }
         } else {
             JOptionPane.showMessageDialog(this, "Please enter a username and password!");
         }
+    }
+
+    private void updateTotalUsers() {
+        int totalUsers = passwords.size() - 1; // Subtract 1 to exclude the "admin" account
+        userCountLabel.setText(String.valueOf(totalUsers));
     }
 
     public static void main(String[] args) {
